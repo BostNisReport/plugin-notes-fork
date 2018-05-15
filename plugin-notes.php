@@ -313,7 +313,7 @@ if( !class_exists('plugin_notes')) {
 	
 			$output .= '
 			<div id="wp-plugin_note_form_' . esc_attr( $plugin_safe_name ) . '" class="wp-plugin_note_form" ' . $plugin_form_style . '>
-			<label for="wp-plugin_note_color_' . esc_attr( $plugin_safe_name ) . '">' . __( 'Note Status:', 'plugin-notes') . '
+			<label class="wp-plugin_note_color_label" for="wp-plugin_note_color_' . esc_attr( $plugin_safe_name ) . '">' . __( 'Note Status:', 'plugin-notes') . '
 		    <select name="wp-plugin_note_color_' . esc_attr( $plugin_safe_name ) . '" id="wp-plugin_note_color_' . esc_attr( $plugin_safe_name ) . '">
 			';
 
