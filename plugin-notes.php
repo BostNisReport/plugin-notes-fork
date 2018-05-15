@@ -177,7 +177,7 @@ if( !class_exists('plugin_notes')) {
 		 */
 		function _add_plugin_note ( $note = null, $plugin_data, $plugin_file, $echo = true ) {
 
-			$plugin_safe_name = $this->_get_plugin_safe_name($plugin_data['Name']);
+			$plugin_safe_name = $this->_get_plugin_safe_name($plugin_data['Name'].'-readme');
 			$actions = array();
 
 			if(is_array($note) && !empty($note['note'])) {
