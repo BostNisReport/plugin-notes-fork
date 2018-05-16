@@ -328,7 +328,7 @@ if( !class_exists('plugin_notes')) {
 			fclose($file);
 
 			$lines =  explode('\n',$data);
-			
+			echo count($lines);
 			// Add color options
 			foreach($lines as $color) {
 			  $output .= '
