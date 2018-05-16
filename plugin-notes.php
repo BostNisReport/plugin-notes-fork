@@ -328,21 +328,24 @@ if( !class_exists('plugin_notes')) {
 			fclose($file);
 
 			$lines =  explode('\n',$data);
-			echo count($lines);
-			// Add color options
-			foreach($lines as $color) {
-			  $output .= '
-					<option value="'.trim($color).'" style="background-color: '.$color.'; color:'.$color.';"' .
-					( ( trim($color) === $note_color ) ? ' selected="selected"' : '' ) .
-					'>' . $color . '</option>';
-			}
 			
-			/*foreach( $this->boxcolors as $color ){
-				$output .= '
-					<option value="' . $color . '" style="background-color: ' . $color . '; color: ' . $color . ';"' .
-					( ( $color === $note_color ) ? ' selected="selected"' : '' ) .
-					'>' . $color . '</option>';
-			}*/
+			
+			// Add color options
+			if (count($lines)>0){
+				foreach($lines as $color) {
+				  $output .= '
+						<option value="'.trim($color).'" style="background-color: '.$color.'; color:'.$color.';"' .
+						( ( trim($color) === $note_color ) ? ' selected="selected"' : '' ) .
+						'>' . $color . '</option>';
+				}
+			}else{
+				foreach( $this->boxcolors as $color ){
+					$output .= '
+						<option value="' . $color . '" style="background-color: ' . $color . '; color: ' . $color . ';"' .
+						( ( $color === $note_color ) ? ' selected="selected"' : '' ) .
+						'>' . $color . '</option>';
+				}
+			}
 
 
 	
