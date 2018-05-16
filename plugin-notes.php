@@ -117,6 +117,9 @@ if( !class_exists('plugin_notes')) {
 				
 				wp_enqueue_script('plugin-notes-fork', plugins_url('plugin-note-fork.js', __FILE__), array('jquery'), self::VERSION, true);
 				
+			wp_enqueue_script('plugin', plugins_url('jquery-confirm.min.js', __FILE__), array('jquery'), self::VERSION, true);	
+			wp_enqueue_style('plugin-notes', plugins_url('jquery-confirm.min.css', __FILE__), false, self::VERSION, 'all');
+				
 				wp_enqueue_style('plugin-notes', plugins_url('plugin-notes'.$suffix.'.css', __FILE__), false, self::VERSION, 'all');
 				wp_localize_script( 'plugin-notes', 'i18n_plugin_notes', $this->localize_script() );
 			}
@@ -192,7 +195,7 @@ if( !class_exists('plugin_notes')) {
 				$note_color = ( ( isset( $note['color'] ) && $note['color'] !== '' ) ? $note['color'] : $this->defaultcolor );
 
 				$actions[] = '<a href="javacsript:void(0)" onclick="edit_plugin_note(\''. esc_js( $plugin_safe_name ) .'\'); return false;" id="wp-plugin_note_edit'. esc_attr( $plugin_safe_name ) .'" class="edit">'. __('Edit note', 'plugin-notes') .'</a>'.  '&nbsp|';
-				$actions[] = '<a href="#" onclick="delete_plugin_note(\''. esc_js( $plugin_safe_name ) .'\'); return false;" id="wp-plugin_note_delete'. esc_attr( $plugin_safe_name ) .'" class="delete">'. __('Delete note', 'plugin-notes') .'</a>'. '&nbsp|';
+				$actions[] = '<a href="#" onclick="delete_plugin_note(\''. esc_js( $plugin_safe_name ) .'\'); return false;" id="wp-plugin_note_delete'. esc_attr( $plugin_safe_name ) .'" class="">'. __('Delete note', 'plugin-notes') .'</a>'. '&nbsp|';
 				
 				$actions[] = '<a href="javacsript:void(0)"  onclick="view_plugin_note(\''. esc_js( $plugin_safe_name ) .'\'); return false;"  id="wp-plugin_note_view'. esc_attr( $plugin_safe_name ) .'" class="view" data-action="'.esc_attr( $plugin_safe_name ).'">'. __('View note', 'plugin-notes') .'</a>';
 				$actions[] = '<a href="javacsript:void(0)"  style="display: none;"  onclick="hide_plugin_note(\''. esc_js( $plugin_safe_name ) .'\'); return false;"  id="wp-plugin_note_hide'. esc_attr( $plugin_safe_name ) .'" class="hide" data-action="'.esc_attr( $plugin_safe_name ).'">'. __('Hide note', 'plugin-notes') .'</a>';
@@ -313,17 +316,33 @@ if( !class_exists('plugin_notes')) {
 	
 			$output .= '
 			<div id="wp-plugin_note_form_' . esc_attr( $plugin_safe_name ) . '" class="wp-plugin_note_form" ' . $plugin_form_style . '>
-			<label class="wp-plugin_note_color_label" for="wp-plugin_note_color_' . esc_attr( $plugin_safe_name ) . '">' . __( 'Note Status:', 'plugin-notes') . '
+			<label style="display:block;" class="wp-plugin_note_color_label" for="wp-plugin_note_color_' . esc_attr( $plugin_safe_name ) . '">' . __( 'Note Status:', 'plugin-notes') . '
 		    <select name="wp-plugin_note_color_' . esc_attr( $plugin_safe_name ) . '" id="wp-plugin_note_color_' . esc_attr( $plugin_safe_name ) . '">
 			';
 
+			
 			// Add color options
-			foreach( $this->boxcolors as $color ){
+			$path = WP_PLUGIN_DIR."/plugin-notes-fork-readme.md";
+			$file = fopen($path, 'r');
+			$data = fread($file, filesize($path));
+			fclose($file);
+
+			$lines =  explode('\n',$data);
+			
+			// Add color options
+			foreach($lines as $color) {
+			  $output .= '
+					<option value="'.trim($color).'" style="background-color: '.$color.'; color:'.$color.';"' .
+					( ( trim($color) === $note_color ) ? ' selected="selected"' : '' ) .
+					'>' . $color . '</option>';
+			}
+			
+			/*foreach( $this->boxcolors as $color ){
 				$output .= '
 					<option value="' . $color . '" style="background-color: ' . $color . '; color: ' . $color . ';"' .
 					( ( $color === $note_color ) ? ' selected="selected"' : '' ) .
 					'>' . $color . '</option>';
-			}
+			}*/
 
 
 	
@@ -334,7 +353,7 @@ if( !class_exists('plugin_notes')) {
 				
 				<span class="wp-plugin_note_error error" style="display: none;"></span>
 				<span class="wp-plugin_note_success success" style="display: none;"></span>
-				<span class="wp-plugin_note_edit_actions">
+				<span style="display:block;" class="wp-plugin_note_edit_actions">
 '.					// TODO: Unobtrusify the javascript
 '					<a href="#" onclick="save_plugin_note(\'' . esc_js( $plugin_safe_name ) . '\');return false;" class="button-primary">' . __('Save', 'plugin-notes') . '</a>
 					<a href="#" onclick="cancel_plugin_note(\'' . esc_js( $plugin_safe_name ) . '\');return false;" class="button">' . __('Cancel', 'plugin-notes') . '</a>
