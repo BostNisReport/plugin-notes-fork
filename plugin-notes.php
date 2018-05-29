@@ -352,7 +352,7 @@ if( !class_exists('plugin_notes')) {
 			$output .= '
 				</select></label>
 			  
-				<textarea name="wp-plugin_note_text_' . esc_attr( $plugin_safe_name ) . '" cols="65" rows="10"' . $new_note_class . '>' . esc_textarea( $note ) . '</textarea>
+				<textarea style="width:100%;" name="wp-plugin_note_text_' . esc_attr( $plugin_safe_name ) . '" cols="65" rows="10"' . $new_note_class . '>' . esc_textarea( $note ) . '</textarea>
 				
 				<span class="wp-plugin_note_error error" style="display: none;"></span>
 				<span class="wp-plugin_note_success success" style="display: none;"></span>
